@@ -1,2 +1,5 @@
 # mqtt-broker-lib
-WIP! A Mqtt Broker for Turtles
+
+_A MQTT-Broker for CCTweaked_
+
+**Just started development, not usable at this state**

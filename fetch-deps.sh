@@ -12,6 +12,7 @@ libs=(
     "helperFunctions-lib"
     "testSuite-lib"
     "eventHandler-lib"
+    "ccClass-lib"
 )
 
 # Basic setup variables

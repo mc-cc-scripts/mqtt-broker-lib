@@ -33,23 +33,36 @@ package.path = package.path .. ";"
     .."libs/peripherals/?.lua;"
 
 local MQTTBroker = require("mqttBroker")
+---@type MQTTBroker
+local broker
 
 describe("Basic Tests", function()
+
+    before_each(function()
+        broker = MQTTBroker()
+    end)
     it("loaded", function()
-        assert.is.truthy(MQTTBroker)
+        assert.is.truthy(broker)
     end)
     describe("Publish", function()
         it("SenderID", function ()
-            assert.True(MQTTBroker:publish("test", {sender = 2}))
-            assert.False(MQTTBroker:publish("test", {}))
+            assert.True(broker:publish("test", {sender = 2}))
+            assert.False(broker:publish("test", {}))
         end)
         it("Publish", function()
-            local ok, id = MQTTBroker:publish("test", {sender = 2, payload = "test payload"})
-            local ok2, id2 = MQTTBroker:publish("test", {sender = 2, payload = "test payload 2"})
+            local ok, id = broker:publish("test", {sender = 2, payload = "test payload"})
+            local ok2, id2 = broker:publish("test", {sender = 2, payload = "test payload 2"})
             assert.True(ok)
             assert.True(ok2)
-            assert.are.same(MQTTBroker:getMessageByID(id).payload, "test payload")
-            assert.are.same(MQTTBroker:getMessageByID(id2).payload, "test payload 2")
+            assert.are.same(broker:getMessageByID(id).payload, "test payload")
+            assert.are.same(broker:getMessageByID(id2).payload, "test payload 2")
+        end)
+    end)
+    describe("Subscribe", function()
+        it("Registered", function()
+            broker:subscribe(1, "test")
+            assert.is.truthy(broker.clientList[1])
+            
         end)
     end)
 end)
